@@ -8,14 +8,13 @@ import time
 
 from django.core.exceptions import ObjectDoesNotExist
 
-import park.models
-from park.models import *
+from models import *
 
 def parse():
 	# request xml object containing information of parks in Vancouver
 	url = 'ftp://webftp.vancouver.ca/opendata/xml/parks_facilities.xml'
 	xml_file = urllib2.urlopen(url)
-	tree = ET.ElementTree(file=xml_file)
+	tree = ET.ElementTree(file = xml_file)
 	root = tree.getroot()
 
 	# initialize arrays to store the data from xml file
@@ -57,16 +56,15 @@ def parse():
 			facilType.append(temp2)
 
 	for i in xrange(len(parkID)):
-		# print i
 		try:
-		    p = Park.objects.get(eID = i)
+		    p = Park.objects.get(pID = i+1)
 		except ObjectDoesNotExist:
 		    if parkID[i] is not None:
-		        p = Park(pID = i, pName = pName[i], streetNumber = streetNum[i], streetName = streetName[i],
+		        p = Park(pName = name[i], streetNumber = streetNum[i], streetName = streetName[i],
 		                ewStreet = ewStreet[i], nsStreet = nsStreet[i], lat = lat[i], lon = lon[i])
 		        p.save()
 		if parkID[i] is not None:
-		    p.pName = pName[i]
+		    p.pName = name[i]
 		    p.streetNumber = streetNum[i]
 		    p.streetName = streetName[i]
 		    p.ewStreet = ewStreet[i]
@@ -75,6 +73,25 @@ def parse():
 		    p.lon = lon[i]
 		    p.save()
 
+	for i in xrange(len(parkID)):
+		for j in xrange(len(facilCount[i])):
+			try:
+				f = Facility.objects.get(pID = Park.objects.get(pID = i+1), facilType = facilType[i][j])
+			except ObjectDoesNotExist:
+				if parkID[i] and facilCount[i][j] is not None:
+					f = Facility(pID = Park.objects.get(pID = i+1), facilNum = facilCount[i][j], facilType = facilType[i][j])
+					f.save()
+			if parkID[i] and facilCount[i][j] is not None:
+				f.pID = Park.objects.get(pID = i+1)
+				f.facilNum = facilCount[i][j]
+				f.facilType = facilType[i][j]
+				f.save()
+
+	lu = Last_Updated.objects.order_by('-updateCount')[0]
+	lu.date = datetime.date.today()
+	lu.updateCount = lu.updateCount + 1
+	lu.save()
+	
 	# print "ParkID: " + str(len(parkID))
 	# print "name: " + str(len(name))
 	# print "street#: " + str(len(streetNum))
@@ -82,14 +99,31 @@ def parse():
 	# print "ew: " + str(len(ewStreet))
 	# print "ns: " + str(len(nsStreet))
 	# print "lat: " + str(len(lat)) + " lon: " + str(len(lon))
-	print "ParkID" + " " + str(parkID[1])
+	# print "ParkID" + " " + str(parkID[1])
 	# print facilCount, len(facilCount)
 	# print facilType, len(facilType)
-	# print facilType[5][0]
-	# print facilCount[5][0]
+	# print len(parkID)
+	# print len(facilCount)
+	# print len(facilCount)
+	# print facilType[5]
+	# print facilCount[5]
 
-# def main():
-# 	parse()
+# Update the database if it hasn't been updated yet.
+if len(Last_Updated.objects.order_by('-updateCount')) == 0:
+	lu = Last_Updated(date = datetime.date.today(), updateCount = 1)
+	lu.save()
+	parse()
 
-# if __name__ == '__main__':
-# 	main()
+# Update the database everyday.
+currDate = datetime.date.today()
+lastUpdate = Last_Updated.objects.order_by('-updateCount')[0]
+lastUpdate = str(lastUpdate)
+lastUpdate = lastUpdate.replace('-', ' ')
+lastUpdate = lastUpdate.split(' ')
+lastUpdate = [int(x) for x in lastUpdate]
+lastDate = datetime.date(lastUpdate[0], lastUpdate[1], lastUpdate[2])
+diff = currDate - lastDate
+
+if diff.days >= 1:
+    parse()
+

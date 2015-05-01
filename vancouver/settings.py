@@ -1,5 +1,6 @@
 # Django settings for vancouver project.
 import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -139,8 +140,11 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(DIRNAME, "templates"),
 )
+# print DIRNAME
+# print BASE_DIR
 
 INSTALLED_APPS = (
+    # 'vancouver',
     'park',
     'django.contrib.auth',
     'django.contrib.contenttypes',
