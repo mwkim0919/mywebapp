@@ -1,6 +1,8 @@
 import xml.etree.ElementTree as ET
 import urllib2
 
+import json
+
 import datetime
 from datetime import date
 import sys
@@ -10,7 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from models import *
 
-def parse():
+def parsePark():
 	# request xml object containing information of parks in Vancouver
 	url = 'ftp://webftp.vancouver.ca/opendata/xml/parks_facilities.xml'
 	xml_file = urllib2.urlopen(url)
@@ -91,28 +93,11 @@ def parse():
 	lu.date = datetime.date.today()
 	lu.updateCount = lu.updateCount + 1
 	lu.save()
-	
-	# print "ParkID: " + str(len(parkID))
-	# print "name: " + str(len(name))
-	# print "street#: " + str(len(streetNum))
-	# print "streetName: " + str(len(streetName))
-	# print "ew: " + str(len(ewStreet))
-	# print "ns: " + str(len(nsStreet))
-	# print "lat: " + str(len(lat)) + " lon: " + str(len(lon))
-	# print "ParkID" + " " + str(parkID[1])
-	# print facilCount, len(facilCount)
-	# print facilType, len(facilType)
-	# print len(parkID)
-	# print len(facilCount)
-	# print len(facilCount)
-	# print facilType[5]
-	# print facilCount[5]
 
 # Update the database if it hasn't been updated yet.
 if len(Last_Updated.objects.order_by('-updateCount')) == 0:
 	lu = Last_Updated(date = datetime.date.today(), updateCount = 1)
 	lu.save()
-	parse()
 
 # Update the database everyday.
 currDate = datetime.date.today()
@@ -125,5 +110,5 @@ lastDate = datetime.date(lastUpdate[0], lastUpdate[1], lastUpdate[2])
 diff = currDate - lastDate
 
 if diff.days >= 1:
-    parse()
+    parsePark()
 
