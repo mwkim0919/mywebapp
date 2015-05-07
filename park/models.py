@@ -19,7 +19,7 @@ class Park(models.Model):
     lon = models.FloatField('Longitude', null = True, blank = True)
 
     class Meta:
-        ordering = ['pID']
+        ordering = ['pName']
     
     def __unicode__(self):
         return self.pName

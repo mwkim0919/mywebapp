@@ -1,3 +1,5 @@
+{% load custom_tags %}
+
 <html lang="eng">
 
     <head>
@@ -8,6 +10,27 @@
     <body>
 		<h1>Welcome to All About Vancouver</h1>
 		<p>stuffs will go in here</p>
+
+		<div class="col-md-7">
+			{% block content %}
+			<table class="table table-responsive" id="list">
+				<thead>
+					<th>Park</th>
+					<th>Address</th>
+					<th>Facility</th>
+				</thead>
+				<tbody>
+					{% for pID in parkIDs %}
+						<tr>
+							<td>{{ names|get_value:pID }}</td>
+							<td>{{ streetNumbers|get_value:pID }} {{ streetNames|get_value:pID }} Vancouver, BC</td>
+							<td>{{ facilityNumbers|get_value:pID }} {{ facilityNames|get_value:pID }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endblock %}
+		</div>
 	</body>
 
 </html>
