@@ -26,6 +26,7 @@ def parks(request):
 	streetNames = {}
 	facilityNumbers = {}
 	facilityNames = {}
+	facilities = {}
 	ewStreets = {}
 	nsStreets = {}
 	lat = {}
@@ -41,34 +42,31 @@ def parks(request):
 
     # Construct the array and the dictionaries.
 	for park in parks:
-		tempFacilNames = []
-		tempFacilNums = []
+		# tempFacilNames = []
+		# tempFacilNums = []
+		tempFacilities = []
 		Parks.append(park)
 		has_facility = list(Facility.objects.filter(pID = park.pID))
 		for facility in has_facility:
 			f = Facility.objects.get(id = facility.id)
-			tempFacilNames.append(f.facilType)
-			tempFacilNums.append(f.facilNum)
-		FacilityType.append(tempFacilNames)
-		FacilityNum.append(tempFacilNums)
+			fInfo = str(f.facilType) + "(" + str(f.facilNum) + ")"
+			tempFacilities.append(fInfo)
+			# tempFacilNames.append(f.facilType)
+			# tempFacilNums.append(f.facilNum)
+		# FacilityType.append(tempFacilNames)
+		# FacilityNum.append(tempFacilNums)
 
 	# Map park details to this park ID in the dictionaries.
 		parkIDs.append(park.pID)
 		names[park.pID] = park.pName
 		streetNumbers[park.pID] = park.streetNumber
 		streetNames[park.pID] = park.streetName
-		facilityNumbers[park.pID] = tempFacilNums
-		facilityNames[park.pID] = tempFacilNames
-
-	# print parkIDs
-	# print names
-	# print streetNumbers
-	# print streetNames
-	# print facilityNumbers
-	# print facilityNames
+		# facilityNumbers[park.pID] = tempFacilNums
+		# facilityNames[park.pID] = tempFacilNames
+		facilities[park.pID] = tempFacilities
 
 	# Set up the template
-	template = loader.get_template('home.html')
+	template = loader.get_template('park.html')
 	context = RequestContext(request, 
 		{'parkIDs': parkIDs,
 		'names': names,
@@ -76,6 +74,116 @@ def parks(request):
 		'streetNames': streetNames,
 		'facilityNumbers': facilityNumbers,
 		'facilityNames': facilityNames,
+		'facilities': facilities,
+		'Parks': Parks,
 		})
 
-	return render(request, 'home.html', context)
+	return render(request, 'park.html', context)
+
+def search(request):
+	query_type = False
+	query_string = False
+
+	# query_type_ids = []
+	matching_park_ids = []
+
+	parkIDs = []
+
+	Parks = []
+	FacilityType = []
+	FacilityNum = []
+
+	names = {}
+	streetNumbers = {}
+	streetNames = {}
+	facilityNumbers = {}
+	facilityNames = {}
+	facilities = {}
+
+	if ('query_type' in request.GET):
+		query_type = request.GET['query_type']
+	if ('query_string' in request.GET) and request.GET['query_string'].strip():
+		query_string = request.GET['query_string']
+
+	if not query_type:
+		return parks(request)
+
+	if query_string:
+		if query_type == "Park":
+			similar_parks = list(Park.objects.filter(pName__icontains = query_string))
+			for park in similar_parks:
+				matching_park_ids.append(park.pID)
+
+		has_parks = Park.objects.all()
+
+		for park in has_parks:
+			if (park.pID in matching_park_ids) or not query_string:
+				# tempFacilNames = []
+				# tempFacilNums = []
+				tempFacilities = []
+				Parks.append(park)
+				has_facility = list(Facility.objects.filter(pID = park.pID))
+				for facility in has_facility:
+					f = Facility.objects.get(id = facility.id)
+					fInfo = str(f.facilType) + "(" + str(f.facilNum) + ")"
+					tempFacilities.append(fInfo)
+					# tempFacilNames.append(f.facilType)
+					# tempFacilNums.append(f.facilNum)
+				# FacilityType.append(tempFacilNames)
+				# FacilityNum.append(tempFacilNums)
+
+				parkIDs.append(park.pID)
+				names[park.pID] = park.pName
+				streetNumbers[park.pID] = park.streetNumber
+				streetNames[park.pID] = park.streetName
+				facilities[park.pID] = tempFacilities
+				# facilityNumbers[park.pID] = tempFacilNums
+				# facilityNames[park.pID] = tempFacilNames
+
+		if query_type == "Facility":
+			similar_facilities = list(Facility.objects.filter(facilType__icontains = query_string))
+			for facility in similar_facilities:
+				matching_park_ids.append(facility.pID_id)
+
+		has_parks = Park.objects.all()
+		for park in has_parks:
+			if (park.pID in matching_park_ids) or not query_string:
+				# tempFacilNames = []
+				# tempFacilNums = []
+				tempFacilities = []
+				Parks.append(park)
+				has_facility = list(Facility.objects.filter(pID = park.pID))
+				for facility in has_facility:
+					f = Facility.objects.get(id = facility.id)
+					fInfo = str(f.facilType) + "(" + str(f.facilNum) + ")"
+					tempFacilities.append(fInfo)
+					# tempFacilNames.append(f.facilType)
+					# tempFacilNums.append(f.facilNum)
+				# FacilityType.append(tempFacilNames)
+				# FacilityNum.append(tempFacilNums)
+
+				parkIDs.append(park.pID)
+				names[park.pID] = park.pName
+				streetNumbers[park.pID] = park.streetNumber
+				streetNames[park.pID] = park.streetName
+				facilities[park.pID] = tempFacilities
+				# facilityNumbers[park.pID] = tempFacilNums
+				# facilityNames[park.pID] = tempFacilNames
+
+	# Set up the template
+	template = loader.get_template('park.html')
+	context = RequestContext(request, 
+		{
+		'query_type': query_type,
+		'query_string': query_string,
+		'parkIDs': parkIDs,
+		'names': names,
+		'streetNumbers': streetNumbers,
+		'streetNames': streetNames,
+		'facilities': facilities,
+		'facilityNumbers': facilityNumbers,
+		'facilityNames': facilityNames,
+		'Parks': Parks,
+		})
+
+	return render(request, 'park.html', context)

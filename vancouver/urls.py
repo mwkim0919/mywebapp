@@ -7,7 +7,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^park/$', 'park.views.parks'),
-    url(r'^weather/$', 'weather.views.home'),
+    url(r'^weather/$', 'weather.views.weathers'),
+    url(r'^search/$', 'park.views.search'),
+
     # url(r'^vancouver/', include('vancouver.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

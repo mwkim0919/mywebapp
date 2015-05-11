@@ -54,6 +54,8 @@ def parseWeather():
 	# print windDirection, len(windDirection)
 	# print humidity, len(humidity)
 
+	Weather.objects.all().delete()
+
 	for i in xrange(len(date)):
 		try:
 			w = Weather.objects.get(date = date[i])
@@ -79,8 +81,3 @@ def parseWeather():
 			w.save()
 
 parseWeather()
-# def main():
-	# parseWeather()
-
-# if __name__ == '__main__':
-	# main()
