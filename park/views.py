@@ -49,7 +49,7 @@ def parks(request):
 		has_facility = list(Facility.objects.filter(pID = park.pID))
 		for facility in has_facility:
 			f = Facility.objects.get(id = facility.id)
-			fInfo = str(f.facilType) + "(" + str(f.facilNum) + ")"
+			fInfo = str(f.facilType) + " (" + str(f.facilNum) + ")"
 			tempFacilities.append(fInfo)
 			# tempFacilNames.append(f.facilType)
 			# tempFacilNums.append(f.facilNum)
@@ -125,7 +125,7 @@ def search(request):
 				has_facility = list(Facility.objects.filter(pID = park.pID))
 				for facility in has_facility:
 					f = Facility.objects.get(id = facility.id)
-					fInfo = str(f.facilType) + "(" + str(f.facilNum) + ")"
+					fInfo = str(f.facilType) + " (" + str(f.facilNum) + ")"
 					tempFacilities.append(fInfo)
 					# tempFacilNames.append(f.facilType)
 					# tempFacilNums.append(f.facilNum)
@@ -155,7 +155,7 @@ def search(request):
 				has_facility = list(Facility.objects.filter(pID = park.pID))
 				for facility in has_facility:
 					f = Facility.objects.get(id = facility.id)
-					fInfo = str(f.facilType) + "(" + str(f.facilNum) + ")"
+					fInfo = str(f.facilType) + " (" + str(f.facilNum) + ")"
 					tempFacilities.append(fInfo)
 					# tempFacilNames.append(f.facilType)
 					# tempFacilNums.append(f.facilNum)

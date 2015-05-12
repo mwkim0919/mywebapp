@@ -24,7 +24,25 @@
 
 			var trafficLayer = new google.maps.TrafficLayer();
 			trafficLayer.setMap(map);
+
+			"{% for park in Parks %}"
+				var pLatLng = new google.maps.LatLng("{{ park.lat }}", "{{ park.lon }}");
+				var marker = new google.maps.Marker({
+					position: pLatLng,
+					map: map,
+					title: "{{ park.pName }}",
+				});
+			"{% endfor %}"
+
+			// var infowindow = new google.maps.InfoWindow({
+				// content: contentString
+			// });
+
+			google.maps.event.addListener(marker, 'click', function() {
+				infowindow.open(map,marker);
+			});
 		}
+
 		google.maps.event.addDomListener(window, 'load', initialize);
 		</script>
     </head>
@@ -50,19 +68,6 @@
 		</p>
 		
 	    <div id="map-canvas"></div>
-
-	    <script>
-    	function getParks() {
-    		"{% for Park in Parks %}"
-    			var Park = [];
-    			Park.push("{{ Park.pName }}");
-    			Park.push("{{ Park.lat }}");
-    			Park.push("{{ Park.lon }}");
-
-    			Parks.push(Park);
-    		"{% endfor %}"
-    	}
-    	</script>
 
 		<div class="col-md-7">
 			{% block content %}
