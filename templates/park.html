@@ -11,6 +11,8 @@
 				height: 50%;
 			}
 	    </style>
+
+	    <!-- Script for Google Map Functionality -->
 	    <script src="https://maps.googleapis.com/maps/api/js"></script>
 	    <script>
 		function initialize() {
@@ -25,6 +27,8 @@
 			var trafficLayer = new google.maps.TrafficLayer();
 			trafficLayer.setMap(map);
 
+			var infowindow = new google.maps.InfoWindow()
+
 			"{% for park in Parks %}"
 				var pLatLng = new google.maps.LatLng("{{ park.lat }}", "{{ park.lon }}");
 				var marker = new google.maps.Marker({
@@ -32,15 +36,42 @@
 					map: map,
 					title: "{{ park.pName }}",
 				});
+				var content = "{{ park.pName }}"
+				google.maps.event.addListener(marker, 'click', (function(marker, content, infowindow) {
+					return function() {
+						infowindow.setContent(content);
+						infowindow.open(map, marker);
+					};
+				})(marker, content, infowindow));
 			"{% endfor %}"
 
-			// var infowindow = new google.maps.InfoWindow({
-				// content: contentString
-			// });
 
-			google.maps.event.addListener(marker, 'click', function() {
-				infowindow.open(map,marker);
-			});
+
+			// Try HTML5 geolocation
+			if(navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+					var infowindow = new google.maps.InfoWindow({
+						map: map,
+						position: pos,
+						content: 'My Current Location.'
+					});
+					map.setCenter(pos);
+				}, function() {
+					handleNoGeolocation(true);
+				});
+			} else {
+				// Browser doesn't support Geolocation
+				handleNoGeolocation(false);
+			}
+		}
+
+		function handleNoGeolocation(errorFlag) {
+			if (errorFlag) {
+				var content = 'Error: The Geolocation service failed.';
+			} else {
+				var content = 'Error: Your browser doesn\'t support geolocation.';
+			}
 		}
 
 		google.maps.event.addDomListener(window, 'load', initialize);

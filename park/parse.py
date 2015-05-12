@@ -109,6 +109,6 @@ lastUpdate = [int(x) for x in lastUpdate]
 lastDate = datetime.date(lastUpdate[0], lastUpdate[1], lastUpdate[2])
 diff = currDate - lastDate
 
-if diff.days >= 1:
+if diff.days >= 7:
     parsePark()
 
