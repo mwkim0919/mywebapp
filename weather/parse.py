@@ -21,6 +21,7 @@ def parseWeather():
 
 	# initialize arrays to store the data from xml file
 	# city = []
+	image = []
 	date = []
 	name = []
 	dayTemp = []
@@ -35,6 +36,7 @@ def parseWeather():
 	for child in root.iter('forecast'):
 		for sub1 in child.findall('time'):
 			date.append(sub1.get('day'))
+			image.append(sub1.find('symbol').get('var'))
 			name.append(sub1.find('symbol').get('name'))
 			dayTemp.append(sub1.find('temperature').get('day'))
 			nightTemp.append(sub1.find('temperature').get('night'))
@@ -53,6 +55,7 @@ def parseWeather():
 	# print windSpeed, len(windSpeed)
 	# print windDirection, len(windDirection)
 	# print humidity, len(humidity)
+	# print image, len(image)
 
 	Weather.objects.all().delete()
 
@@ -64,7 +67,7 @@ def parseWeather():
 				w = Weather(city = "Vancouver", country = "Canada", date = date[i], name = name[i],
 					dayTemp = dayTemp[i], nightTemp = nightTemp[i], precipitation = precipitation[i],
 					preciType = preciType[i], windSpeed = windSpeed[i], windDirection = windDirection[i],
-					humidity = humidity[i])
+					humidity = humidity[i], image = image[i])
 				w.save()
 		if date[i] is not None:
 			w.city = "Vancouver"
@@ -78,6 +81,7 @@ def parseWeather():
 			w.windSpeed = windSpeed[i]
 			w.windDirection = windDirection[i]
 			w.humidity = humidity[i]
+			w.image = image[i]
 			w.save()
 
 parseWeather()

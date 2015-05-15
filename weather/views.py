@@ -29,9 +29,10 @@ def weathers(request):
 	windSpeeds = {}
 	windDirections = {}
 	humidities = {}
+	images = {}
 
 	weathers = Weather.objects.order_by('date')
-	print weathers
+	# print weathers
 
 	for weather in weathers:
 		weatherIDs.append(weather.wID)
@@ -44,6 +45,9 @@ def weathers(request):
 		windSpeeds[weather.wID] = weather.windSpeed
 		windDirections[weather.wID] = weather.windDirection
 		humidities[weather.wID] = weather.humidity
+		images[weather.wID] = "http://openweathermap.org/img/w/" + weather.image + ".png"
+		# http://openweathermap.org/img/w/10d.png
+
 
 	template = loader.get_template('weather.html')
 	context = RequestContext(request, 
@@ -57,6 +61,7 @@ def weathers(request):
 		'windSpeeds': windSpeeds,
 		'windDirections': windDirections,
 		'humidities': humidities,
+		'images': images,
 		})
 	
 	return render(request, 'weather.html', context)

@@ -19,7 +19,6 @@ class Weather(models.Model):
 	country = models.CharField('Country', max_length = 20, null = True, blank = True)
 	date = models.DateField()
 	name = models.CharField('Name', max_length = 20, null = True, blank = True)
-	# temp = models.FloatField('Temperature', max_length = 10, null = True, blank = True)
 	dayTemp = models.FloatField('Day Temperature', max_length = 10, null = True, blank = True)
 	nightTemp = models.FloatField('Night Temperature', max_length = 10, null = True, blank = True)
 	precipitation = models.FloatField('Precipitation', max_length = 10, null = True, blank = True)
@@ -28,6 +27,7 @@ class Weather(models.Model):
 	windDirection = models.CharField('Wind Direction', max_length = 20, null = True, blank = True)
 	humidity = models.IntegerField('Humidity', validators = [MinValueValidator(0), MaxValueValidator(100)], 
 		null = True, blank = True)
+	image = models.CharField('Image', max_length = 5, null = True, blank = True)
 
 	class Meta:
 	    ordering = ['date']

@@ -16,69 +16,77 @@ from parse import *
 
 # display all parks
 def parks(request):
-	# store parkIDs in this array
-	parkIDs = []
 
-	# store park information in these dictionaries.
-	# use parkID as keys
-	names = {}
-	streetNumbers = {}
-	streetNames = {}
-	facilityNumbers = {}
-	facilityNames = {}
-	facilities = {}
-	ewStreets = {}
-	nsStreets = {}
-	lat = {}
-	lon = {}
+	parkBox = False
 
-    # To transfer from the database to javascript
-	Parks = []
-	FacilityType = []
-	FacilityNum = []
+	if ('parkBox' in request.GET):
+		# store parkIDs in this array
+		parkIDs = []
 
-    # Sort parks alphabetically
-	parks = Park.objects.order_by('pName')
+		# store park information in these dictionaries.
+		# use parkID as keys
+		names = {}
+		streetNumbers = {}
+		streetNames = {}
+		facilityNumbers = {}
+		facilityNames = {}
+		facilities = {}
+		ewStreets = {}
+		nsStreets = {}
+		lat = {}
+		lon = {}
 
-    # Construct the array and the dictionaries.
-	for park in parks:
-		# tempFacilNames = []
-		# tempFacilNums = []
-		tempFacilities = []
-		Parks.append(park)
-		has_facility = list(Facility.objects.filter(pID = park.pID))
-		for facility in has_facility:
-			f = Facility.objects.get(id = facility.id)
-			fInfo = str(f.facilType) + " (" + str(f.facilNum) + ")"
-			tempFacilities.append(fInfo)
-			# tempFacilNames.append(f.facilType)
-			# tempFacilNums.append(f.facilNum)
-		# FacilityType.append(tempFacilNames)
-		# FacilityNum.append(tempFacilNums)
+	    # To transfer from the database to javascript
+		Parks = []
+		FacilityType = []
+		FacilityNum = []
 
-	# Map park details to this park ID in the dictionaries.
-		parkIDs.append(park.pID)
-		names[park.pID] = park.pName
-		streetNumbers[park.pID] = park.streetNumber
-		streetNames[park.pID] = park.streetName
-		# facilityNumbers[park.pID] = tempFacilNums
-		# facilityNames[park.pID] = tempFacilNames
-		facilities[park.pID] = tempFacilities
+	    # Sort parks alphabetically
+		parks = Park.objects.order_by('pName')
 
-	# Set up the template
-	template = loader.get_template('park.html')
-	context = RequestContext(request, 
-		{'parkIDs': parkIDs,
-		'names': names,
-		'streetNumbers': streetNumbers,
-		'streetNames': streetNames,
-		'facilityNumbers': facilityNumbers,
-		'facilityNames': facilityNames,
-		'facilities': facilities,
-		'Parks': Parks,
-		})
+	    # Construct the array and the dictionaries.
+		for park in parks:
+			# tempFacilNames = []
+			# tempFacilNums = []
+			tempFacilities = []
+			Parks.append(park)
+			has_facility = list(Facility.objects.filter(pID = park.pID))
+			for facility in has_facility:
+				f = Facility.objects.get(id = facility.id)
+				fInfo = str(f.facilType) + " (" + str(f.facilNum) + ")"
+				tempFacilities.append(fInfo)
+				# tempFacilNames.append(f.facilType)
+				# tempFacilNums.append(f.facilNum)
+			# FacilityType.append(tempFacilNames)
+			# FacilityNum.append(tempFacilNums)
 
-	return render(request, 'park.html', context)
+		# Map park details to this park ID in the dictionaries.
+			parkIDs.append(park.pID)
+			names[park.pID] = park.pName
+			streetNumbers[park.pID] = park.streetNumber
+			streetNames[park.pID] = park.streetName
+			# facilityNumbers[park.pID] = tempFacilNums
+			# facilityNames[park.pID] = tempFacilNames
+			facilities[park.pID] = tempFacilities
+
+		# Set up the template
+		template = loader.get_template('park.html')
+		context = RequestContext(request, 
+			{
+			'parkBox': parkBox,
+			'parkIDs': parkIDs,
+			'names': names,
+			'streetNumbers': streetNumbers,
+			'streetNames': streetNames,
+			'facilityNumbers': facilityNumbers,
+			'facilityNames': facilityNames,
+			'facilities': facilities,
+			'Parks': Parks,
+			})
+
+		return render(request, 'park.html', context)
+	else:
+		return render(request, 'park.html')
 
 def search(request):
 	query_type = False
