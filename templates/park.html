@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <style>
 			#map-canvas {
-				width: 100%;
+				width: 80%;
 				height: 50%;
 			}
 	    </style>
@@ -29,6 +29,7 @@
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			}
 			map = new google.maps.Map(mapCanvas, mapOptions);
+			// directionsDisplay.setMap(map);
 
 			// Show traffic layers
 			var trafficLayer = new google.maps.TrafficLayer();
@@ -133,11 +134,14 @@
 			<strong>Start: </strong>
 			<select id="start" onchange="calcRoute();">
 				<option value="st louis, mo">St Louis</option>
+				<option value="stanley park, vancouver">Stanley Park</option>
 			</select>
 			<strong>End: </strong>
 			<select id="end" onchange="calcRoute();">
 				<option value="chicago, il">Chicago</option>
+				<option value="false creek, vancouver">False Creek</option>
 			</select>
+			<button type="submit">Get Direction</button>
 		</div>
 
 		<p>
