@@ -1,69 +1,62 @@
-{% extends "base.html" %}
-
-{% block content %}
 {% load custom_tags %}
 
-	<h1>Welcome to All About Vancouver</h1>
-	<p>This is Weather part</p>
-
-	<div class="col-md-7">
-		<table class="table table-responsive" id="list">
-			<thead>
-				<th></th>
+<div class="col-md-7">
+	<table class="table table-responsive" id="list">
+		<thead>
+			<th></th>
+			{% for wID in weatherIDs %}
+			<th>{{ dates|get_value:wID }}</th>
+			{% endfor %}
+		</thead>
+		<tbody>
+			<tr>
+				<td>Status:</td>
 				{% for wID in weatherIDs %}
-				<th>{{ dates|get_value:wID }}</th>
+					<td><img src="{{ images|get_value:wID }}" alt="weather images"><br>{{ names|get_value:wID }}</td>
 				{% endfor %}
-			</thead>
-			<tbody>
-				<tr>
-					<td>Status:</td>
-					{% for wID in weatherIDs %}
-						<td><img src="{{ images|get_value:wID }}" alt="weather images"><br>{{ names|get_value:wID }}</td>
-					{% endfor %}
-				</tr>
-				<tr>
-					<td>Day Temperature:</td>
-					{% for wID in weatherIDs %}
-						<td>{{ d_temps|get_value:wID }}</td>
-					{% endfor %}
-				</tr>
-				<tr>
-					<td>Night Temperature:</td>
-					{% for wID in weatherIDs %}
-						<td>{{ n_temps|get_value:wID }}</td>
-					{% endfor %}
-				</tr>
-				<tr>
-					<td>Precipitation:</td>
-					{% for wID in weatherIDs %}
-						<td>{{ precips|get_value:wID }}</td>
-					{% endfor %}
-				</tr>
-				<tr>
-					<td>Precipitation Type:</td>
-					{% for wID in weatherIDs %}
-						<td>{{ precipTypes|get_value:wID }}</td>
-					{% endfor %}
-				</tr>
-				<tr>
-					<td>Wind Direction:</td>
-					{% for wID in weatherIDs %}
-						<td>{{ windDirections|get_value:wID }}</td>
-					{% endfor %}
-				</tr>
-				<tr>
-					<td>Wind Speed:</td>
-					{% for wID in weatherIDs %}
-						<td>{{ windSpeeds|get_value:wID }}</td>
-					{% endfor %}
-				</tr>
-				<tr>
-					<td>Humidity:</td>
-					{% for wID in weatherIDs %}
-						<td>{{ humidities|get_value:wID }}</td>
-					{% endfor %}
-				</tr>
-			</tbody>
-		</table>
-	</div>
-{% endblock %}
+			</tr>
+			<tr>
+				<td>Day Temperature:</td>
+				{% for wID in weatherIDs %}
+					<td>{{ d_temps|get_value:wID }}</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				<td>Night Temperature:</td>
+				{% for wID in weatherIDs %}
+					<td>{{ n_temps|get_value:wID }}</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				<td>Precipitation:</td>
+				{% for wID in weatherIDs %}
+					<td>{{ precips|get_value:wID }}</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				<td>Precipitation Type:</td>
+				{% for wID in weatherIDs %}
+					<td>{{ precipTypes|get_value:wID }}</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				<td>Wind Direction:</td>
+				{% for wID in weatherIDs %}
+					<td>{{ windDirections|get_value:wID }}</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				<td>Wind Speed:</td>
+				{% for wID in weatherIDs %}
+					<td>{{ windSpeeds|get_value:wID }}</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				<td>Humidity:</td>
+				{% for wID in weatherIDs %}
+					<td>{{ humidities|get_value:wID }}</td>
+				{% endfor %}
+			</tr>
+		</tbody>
+	</table>
+</div>

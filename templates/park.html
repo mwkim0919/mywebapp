@@ -3,31 +3,13 @@
 {% block content %}
 {% load custom_tags %}
 
-	<div class="container">
-		<h1>Welcome to All About Vancouver</h1>
+	{% include "navbar.html" %}
 
-		<div class="search">
-			<form action="/park/" method"GET">
-				<input type='checkbox' name='parkBox' id='parkBox'> Parks
-				<button type="submit">Get!</button>			
-			</form>
-			<form action="/search/" method"GET">
-				<label>SEARCH: </label>
-				<select name="query_type">
-					<option value="Park">Park</option>
-					<option value="Facility">Facility</option>
-				</select>
-				<input type="text" name="query_string" id="query_string"/>
-				<button type="submit">Search</button>
-			</form>
-		</div>
-	</div>
-
-	<p>
+<!-- 	<p>
 	{% if query_string %}
 		*Showing parks containing {{ query_type }} "{{ query_string }}"
 	{% endif %}
-	</p>
+	</p> -->
 	
     <div id="map-canvas"></div>
 
