@@ -1,118 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
 {% load custom_tags %}
 
-<html lang="eng">
-
-    <head>
-        <title>All About Vancouver</title>
-        <meta charset="utf-8">
-        <style>
-			#map-canvas {
-				width: 80%;
-				height: 50%;
-			}
-	    </style>
-
-	    <!-- Script for Google Map Functionality -->
-	    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
-	    <script>
-	    // for direction service
-		var directionsDisplay;
-		var directionsService = new google.maps.DirectionsService();
-		var map;
-
-		function initialize() {
-			// setting the map itself such as start-up location and zoom value
-			var mapCanvas = document.getElementById('map-canvas');
-			var mapOptions = {
-				center: new google.maps.LatLng(49.2402, -123.1138),
-				zoom: 11,
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			}
-			map = new google.maps.Map(mapCanvas, mapOptions);
-			// directionsDisplay.setMap(map);
-
-			// Show traffic layers
-			var trafficLayer = new google.maps.TrafficLayer();
-			trafficLayer.setMap(map);
-
-			// Show all parks
-			getParks(map)
-
-			// Try HTML5 geolocation
-			if(navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(function(position) {
-					var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-					var infowindow = new google.maps.InfoWindow({
-						map: map,
-						position: pos,
-						content: 'My Current Location.'
-					});
-					map.setCenter(pos);
-				}, function() {
-					handleNoGeolocation(true);
-				});
-			} else {
-				// Browser doesn't support Geolocation
-				handleNoGeolocation(false);
-			}
-		}
-
-		// This function gets the list of all of Vancouver parks
-		function getParks(map) {
-			var infowindow = new google.maps.InfoWindow()
-
-			"{% for park in Parks %}"
-				var pLatLng = new google.maps.LatLng("{{ park.lat }}", "{{ park.lon }}");
-				var marker = new google.maps.Marker({
-					position: pLatLng,
-					map: map,
-					title: "{{ park.pName }}",
-				});
-				var content = 
-				'<div id="content">'+
-					'<h4 id="title">{{ park.pName }}</h1>'+
-					'<p><b>Address: </b> {{ park.streetNumber }} {{ park.streetName }} Vancouver</p>'+
-				'</div>';
-
-				google.maps.event.addListener(marker, 'click', (function(marker, content, infowindow) {
-					return function() {
-						infowindow.setContent(content);
-						infowindow.open(map, marker);
-					};
-				})(marker, content, infowindow));
-			"{% endfor %}"
-		}
-
-		// This function handles error when my location service is not working
-		function handleNoGeolocation(errorFlag) {
-			if (errorFlag) {
-				var content = 'Error: The Geolocation service failed.';
-			} else {
-				var content = 'Error: Your browser doesn\'t support geolocation.';
-			}
-		}
-
-		// This function gets direction from one to another
-		function calcRoute() {
-			var start = document.getElementById("start").value;
-			var end = document.getElementById("end").value;
-			var request = {
-				origin:start,
-				destination:end,
-				travelMode: google.maps.TravelMode.DRIVING
-			};
-			directionsService.route(request, function(result, status) {
-				if (status == google.maps.DirectionsStatus.OK) {
-					directionsDisplay.setDirections(result);
-				}
-			});
-		}
-
-		google.maps.event.addDomListener(window, 'load', initialize);
-		</script>
-    </head>
-
-    <body>
+	<div class="container">
 		<h1>Welcome to All About Vancouver</h1>
 
 		<div class="search">
@@ -130,53 +21,39 @@
 				<button type="submit">Search</button>
 			</form>
 		</div>
-		<div id="panel">
-			<strong>Start: </strong>
-			<select id="start" onchange="calcRoute();">
-				<option value="st louis, mo">St Louis</option>
-				<option value="stanley park, vancouver">Stanley Park</option>
-			</select>
-			<strong>End: </strong>
-			<select id="end" onchange="calcRoute();">
-				<option value="chicago, il">Chicago</option>
-				<option value="false creek, vancouver">False Creek</option>
-			</select>
-			<button type="submit">Get Direction</button>
-		</div>
+	</div>
 
-		<p>
-		{% if query_string %}
-			*Showing parks containing {{ query_type }} "{{ query_string }}"
-		{% endif %}
-		</p>
-		
-	    <div id="map-canvas"></div>
+	<p>
+	{% if query_string %}
+		*Showing parks containing {{ query_type }} "{{ query_string }}"
+	{% endif %}
+	</p>
+	
+    <div id="map-canvas"></div>
 
-		<div class="col-md-7">
-			{% block content %}
-			<table class="table table-responsive" id="list">
-				<thead>
-					<th>Park</th>
-					<th>Address</th>
-					<th>Facility(#)</th>
-					<!-- <th>#</th> -->
-				</thead>
-				<tbody>
-					{% for pID in parkIDs %}
-						<tr>
-							<td>{{ names|get_value:pID }}</td>
-							<td>{{ streetNumbers|get_value:pID }} {{ streetNames|get_value:pID }} Vancouver, BC</td>
-							<td>
-							{% for facility in facilities|get_value:pID %}
-								<li>{{ facility }}</li>
-							{% endfor %}
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-			{% endblock %}
-		</div>
-	</body>
+	<div class="col-md-7">
+		<table class="table table-responsive" id="list">
+			<thead>
+				<th>Park</th>
+				<th>Address</th>
+				<th>Facility(#)</th>
+				<!-- <th>#</th> -->
+			</thead>
+			<tbody>
+				{% for pID in parkIDs %}
+					<tr>
+						<td>{{ names|get_value:pID }}</td>
+						<td>{{ streetNumbers|get_value:pID }} {{ streetNames|get_value:pID }} Vancouver, BC</td>
+						<td>
+						{% for facility in facilities|get_value:pID %}
+							<li>{{ facility }}</li>
+						{% endfor %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 
-</html>
+	
+{% endblock %}
