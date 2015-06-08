@@ -1,13 +1,50 @@
 body, html {
 	height: 100%;
-	width: 100%;
+	width: 100%
 }
 
-div#map-canvas {
-	width: 100%;
-	height: 50%;
+#map-canvas {
+	width: 40%;
+    height: calc(100% - 0);
+    position: absolute;
+    right: 0px;
+    top: 54px;
+    bottom: 0;
+    overflow: hidden;
 }
 
 .modal.modal-wide .modal-dialog {
 	width: 90%;
+}
+
+#main, #main>.row {
+	height: 87%;
+}
+
+#main>.row {
+    /*overflow-y:scroll;*/
+}
+
+#left {
+	height:100%;
+}
+
+table#park {
+	height: 100%;
+    /*position: absolute;*/
+    /*top: 0px;*/
+    bottom: 0;
+    overflow-y: scroll;
+}
+
+tr#park {
+	width: 100%;
+	display: inline-table;
+}
+
+tbody#park {
+	overflow-y: scroll;
+	height: 100%;
+	width: 100%;
+	position: absolute;
 }

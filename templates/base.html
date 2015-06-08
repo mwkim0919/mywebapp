@@ -26,6 +26,7 @@
 		var directionsDisplay;
 		var directionsService = new google.maps.DirectionsService();
 		var map;
+		var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 
 		function initialize() {
 			// setting the map itself such as start-up location and zoom value
@@ -49,12 +50,13 @@
 			if(navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(function(position) {
 					var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-					var infowindow = new google.maps.InfoWindow({
+					var myMark = new google.maps.Marker({
 						map: map,
 						position: pos,
-						content: 'My Current Location.'
+						icon: iconBase + 'man_maps.png',
+						title: 'My Current Location.',
 					});
-					map.setCenter(pos);
+					// map.setCenter(pos);
 				}, function() {
 					handleNoGeolocation(true);
 				});

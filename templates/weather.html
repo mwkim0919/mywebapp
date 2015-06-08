@@ -11,49 +11,49 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td>Status:</td>
+				<td><b>Status:</b></td>
 				{% for wID in weatherIDs %}
-					<td><img src="{{ images|get_value:wID }}" alt="weather images"><br>{{ wnames|get_value:wID }}</td>
+					<td><img src="{{ images|get_value:wID }}" alt="weather images"><br><b>{{ wnames|get_value:wID }}</b></td>
 				{% endfor %}
 			</tr>
 			<tr>
-				<td>Day Temperature:</td>
+				<td><b>Day Temperature:</b></td>
 				{% for wID in weatherIDs %}
 					<td>{{ d_temps|get_value:wID }}</td>
 				{% endfor %}
 			</tr>
 			<tr>
-				<td>Night Temperature:</td>
+				<td><b>Night Temperature:</b></td>
 				{% for wID in weatherIDs %}
 					<td>{{ n_temps|get_value:wID }}</td>
 				{% endfor %}
 			</tr>
 			<tr>
-				<td>Precipitation:</td>
+				<td><b>Precipitation:</b></td>
 				{% for wID in weatherIDs %}
 					<td>{{ precips|get_value:wID }}</td>
 				{% endfor %}
 			</tr>
 			<tr>
-				<td>Precipitation Type:</td>
+				<td><b>Precipitation Type:</b></td>
 				{% for wID in weatherIDs %}
 					<td>{{ precipTypes|get_value:wID }}</td>
 				{% endfor %}
 			</tr>
 			<tr>
-				<td>Wind Direction:</td>
+				<td><b>Wind Direction:</b></td>
 				{% for wID in weatherIDs %}
 					<td>{{ windDirections|get_value:wID }}</td>
 				{% endfor %}
 			</tr>
 			<tr>
-				<td>Wind Speed:</td>
+				<td><b>Wind Speed:</b></td>
 				{% for wID in weatherIDs %}
 					<td>{{ windSpeeds|get_value:wID }}</td>
 				{% endfor %}
 			</tr>
 			<tr>
-				<td>Humidity:</td>
+				<td><b>Humidity:</b></td>
 				{% for wID in weatherIDs %}
 					<td>{{ humidities|get_value:wID }}</td>
 				{% endfor %}
