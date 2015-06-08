@@ -144,9 +144,9 @@ TEMPLATE_DIRS = (
 # print BASE_DIR
 
 INSTALLED_APPS = (
-    # 'vancouver',
-    'park',
-    'weather',
+    'van',
+    # 'park',
+    # 'weather',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

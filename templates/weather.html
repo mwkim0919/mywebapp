@@ -1,12 +1,13 @@
 {% load custom_tags %}
 
-<div class="col-md-7">
-	<table class="table table-responsive" id="list">
+	<table class="table table-striped" id="list">
 		<thead>
-			<th></th>
-			{% for wID in weatherIDs %}
-			<th>{{ dates|get_value:wID }}</th>
-			{% endfor %}
+			<tr>
+				<th></th>
+				{% for wID in weatherIDs %}
+				<th>{{ dates|get_value:wID }}</th>
+				{% endfor %}
+			</tr>
 		</thead>
 		<tbody>
 			<tr>
@@ -59,4 +60,3 @@
 			</tr>
 		</tbody>
 	</table>
-</div>
