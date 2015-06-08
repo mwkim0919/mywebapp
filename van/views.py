@@ -21,7 +21,7 @@ def parks(request):
 
 	# use weatherIDs as keys and store weather information in these dictionaries
 	dates = {}
-	names = {}
+	wnames = {}
 	d_temps = {}
 	n_temps = {}
 	precips = {}
@@ -37,7 +37,7 @@ def parks(request):
 	for weather in weathers:
 		weatherIDs.append(weather.wID)
 		dates[weather.wID] = weather.date
-		names[weather.wID] = weather.name
+		wnames[weather.wID] = weather.name
 		d_temps[weather.wID] = weather.dayTemp
 		n_temps[weather.wID] = weather.nightTemp
 		precips[weather.wID] = weather.precipitation
@@ -107,7 +107,7 @@ def parks(request):
 			'Parks': Parks,
 			'weatherIDs': weatherIDs,
 			'dates': dates,
-			'names': names,
+			'wnames': wnames,
 			'd_temps': d_temps,
 			'n_temps': n_temps,
 			'precips': precips,
@@ -124,7 +124,7 @@ def parks(request):
 		context = RequestContext(request, 
 		{'weatherIDs': weatherIDs,
 		'dates': dates,
-		'names': names,
+		'wnames': wnames,
 		'd_temps': d_temps,
 		'n_temps': n_temps,
 		'precips': precips,
@@ -142,7 +142,7 @@ def search(request):
 
 	# use weatherIDs as keys and store weather information in these dictionaries
 	dates = {}
-	names = {}
+	wnames = {}
 	d_temps = {}
 	n_temps = {}
 	precips = {}
@@ -158,7 +158,7 @@ def search(request):
 	for weather in weathers:
 		weatherIDs.append(weather.wID)
 		dates[weather.wID] = weather.date
-		names[weather.wID] = weather.name
+		wnames[weather.wID] = weather.name
 		d_temps[weather.wID] = weather.dayTemp
 		n_temps[weather.wID] = weather.nightTemp
 		precips[weather.wID] = weather.precipitation
@@ -257,7 +257,7 @@ def search(request):
 		'Parks': Parks,
 		'weatherIDs': weatherIDs,
 		'dates': dates,
-		'names': names,
+		'wnames': wnames,
 		'd_temps': d_temps,
 		'n_temps': n_temps,
 		'precips': precips,

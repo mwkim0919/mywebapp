@@ -109,8 +109,11 @@ lastUpdate = [int(x) for x in lastUpdate]
 lastDate = datetime.date(lastUpdate[0], lastUpdate[1], lastUpdate[2])
 diff = currDate - lastDate
 
-if diff.days >= 7:
-    parsePark()
+# print "work!!!"
+# print Park.objects.all().count()
+if (diff.days >= 100 or Park.objects.all().count() == 0):
+	parsePark()
+
 
 
 def parseWeather():

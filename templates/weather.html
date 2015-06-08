@@ -13,7 +13,7 @@
 			<tr>
 				<td>Status:</td>
 				{% for wID in weatherIDs %}
-					<td><img src="{{ images|get_value:wID }}" alt="weather images"><br>{{ names|get_value:wID }}</td>
+					<td><img src="{{ images|get_value:wID }}" alt="weather images"><br>{{ wnames|get_value:wID }}</td>
 				{% endfor %}
 			</tr>
 			<tr>
