@@ -4,12 +4,14 @@ body, html {
 }
 
 #map-canvas {
-	width: 40%;
-    height: calc(100% - 0);
-    position: absolute;
-    right: 0px;
-    top: 54px;
-    bottom: 0;
+	/*width: 40%;*/
+    /*height: cal(100%-0);*/
+    width: 530px;
+    height: 700px;
+    /*position: absolute;*/
+    /*right: 0px;*/
+    /*top: 54px;*/
+    /*bottom: 0;*/
     overflow: hidden;
 }
 
@@ -17,34 +19,16 @@ body, html {
 	width: 90%;
 }
 
-#main, #main>.row {
-	height: 87%;
+table.table-fixedheader>tbody {
+    display: block;
 }
 
-#main>.row {
-    /*overflow-y:scroll;*/
+table.table-fixedheader>tbody {
+    overflow-y: auto;
+    height: 700px;
 }
 
-#left {
-	height:100%;
-}
-
-table#park {
-	height: 100%;
-    /*position: absolute;*/
-    /*top: 0px;*/
-    bottom: 0;
-    overflow-y: scroll;
-}
-
-tr#park {
-	width: 100%;
-	display: inline-table;
-}
-
-tbody#park {
-	overflow-y: scroll;
-	height: 100%;
-	width: 100%;
-	position: absolute;
+table.table-fixedheader>thead>tr>th, table.table-fixedheader>tbody>tr>td {
+    float: left;
+    /*width: 100px;*/
 }

@@ -4,19 +4,14 @@
 {% load custom_tags %}
 
 	{% include "navbar.html" %}
-
-<!-- 	<p>
-	{% if query_string %}
-		*Showing parks containing {{ query_type }} "{{ query_string }}"
-	{% endif %}
-	</p> -->
-	
-    <div id="map-canvas"></div>
-
     <div class="container-fluid" id="main">
-    	<div class="row">
-			<div class="col-md-7" id="left">
-				<table class="table table-stripped" id="park">
+		<div class="row">
+			<div class="col-md-5">
+			    <center><div id="map-canvas"></div></center>
+			</div>
+
+			<div class="col-md-7">
+				<table class="table table-stripped table-fixedheader" id="park">
 					<thead>
 						<tr id="park">
 							<th class="col-xs-3">Park</th>
@@ -39,34 +34,9 @@
 					</tbody>
 				</table>
 			</div>
+		
 		</div>
 	</div>
-	
-	<!-- <div class="row">
-		<div class="col-md-7">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4>Fixed Header Scrolling Table</h4>
-				</div>
-				<table class="table table-fixed">
-					<thead>
-						<tr>
-							<th class="col-xs-2">#</th>
-							<th class="col-xs-8">Name</th>
-							<th class="col-xs-2">Points</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="col-xs-2">1</td>
-							<td class="col-xs-8">Mike Adams</td>
-							<td class="col-xs-2">23</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div> -->
 
 	<div class="modal fade modal-wide" id="myModal">
 		<div class="modal-dialog">
