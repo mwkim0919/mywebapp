@@ -54,6 +54,7 @@
 		        suppressMarkers: false
 		    });
 		    directionsDisplay.setMap(map);
+		    directionsDisplay.setPanel(document.getElementById("directionsPanel"));
 
 			// Try HTML5 geolocation
 			if(navigator.geolocation) {
@@ -79,7 +80,7 @@
 
 		// This function gets the list of all of Vancouver parks
 		function getParks(map) {
-			var infowindow = new google.maps.InfoWindow()
+			var infowindow = new google.maps.InfoWindow();
 			// dirinfoWindow = new google.maps.InfoWindow();
 
 			"{% for park in Parks %}"
@@ -95,6 +96,7 @@
 					'<h4 id="title">{{ park.pName }}</h4>'+
 					'<p><b>Address: </b> {{ park.streetNumber }} {{ park.streetName }} Vancouver</p>'+
 					'<button onclick="getDir(myPos, myDir)">Get Direction</button>'+
+					'<input type="hidden" id="dest" value="'+ pLatLng + '"/>'+
 				'</div>';
 
 				google.maps.event.addListener(marker, 'click', (function(marker, content, infowindow) {
@@ -106,9 +108,15 @@
 			"{% endfor %}"
 		}
 
-		function getDir(from, to) {
-            var origin = from;
-            var destination = to;
+		function getDir() {
+            var origin = myPos;
+            var destination = document.getElementById("dest").value;
+
+            var mapOptions = {
+				center: new google.maps.LatLng(49.2402, -123.1138),
+				zoom: 11,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			}
 
             var request = {
                 origin: origin,

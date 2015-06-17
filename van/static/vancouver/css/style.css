@@ -15,8 +15,19 @@ body, html {
     overflow: hidden;
 }
 
+#directionsPanel {
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          width: 50%
+}
+
 .modal.modal-wide .modal-dialog {
 	width: 90%;
+}
+
+table.table-fixedheader>thead {
+	/*display: block;*/
 }
 
 table.table-fixedheader>tbody {
@@ -30,5 +41,6 @@ table.table-fixedheader>tbody {
 
 table.table-fixedheader>thead>tr>th, table.table-fixedheader>tbody>tr>td {
     float: left;
+    /*text-align: center;*/
     /*width: 100px;*/
 }
