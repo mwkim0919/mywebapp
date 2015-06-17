@@ -22,9 +22,11 @@
 	    <!-- Script for Google Map Functionality -->
 	    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 	    <script>
-	    // for direction service
+		var geocoder;
+		var directionsService;
 		var directionsDisplay;
-		var directionsService = new google.maps.DirectionsService();
+		var myPos;
+		var dirInfoWindow;
 		var map;
 		var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 
@@ -45,11 +47,18 @@
 
 			// Show all parks
 			getParks(map)
+			geocoder = new google.maps.Geocoder();
+		    directionsService = new google.maps.DirectionsService();
+		    directionsDisplay = new google.maps.DirectionsRenderer({
+		        suppressMarkers: false
+		    });
+		    directionsDisplay.setMap(map);
 
 			// Try HTML5 geolocation
 			if(navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(function(position) {
 					var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+					myPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 					var myMark = new google.maps.Marker({
 						map: map,
 						position: pos,
@@ -69,6 +78,7 @@
 		// This function gets the list of all of Vancouver parks
 		function getParks(map) {
 			var infowindow = new google.maps.InfoWindow()
+			// dirInfoWindow = new google.maps.InfoWindow();
 
 			"{% for park in Parks %}"
 				var pLatLng = new google.maps.LatLng("{{ park.lat }}", "{{ park.lon }}");
@@ -79,8 +89,9 @@
 				});
 				var content = 
 				'<div id="content">'+
-					'<h4 id="title">{{ park.pName }}</h1>'+
+					'<h4 id="title">{{ park.pName }}</h4>'+
 					'<p><b>Address: </b> {{ park.streetNumber }} {{ park.streetName }} Vancouver</p>'+
+					'<button onclick="getDir()">Get Direction</button>'+
 				'</div>';
 
 				google.maps.event.addListener(marker, 'click', (function(marker, content, infowindow) {
@@ -92,11 +103,28 @@
 			"{% endfor %}"
 		}
 
-		function calculateRoute(from, to) {
+		function getDir() {
+            var origin = myPos;
+            var destination = infowindow.getPosition();
+
+            var request = {
+                origin: origin,
+                destination: destination,
+                travelMode: google.maps.DirectionsTravelMode.DRIVING
+            };
+
+            directionsService.route(request, function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                }
+            });
+		}
+
+		function calculateRoute() {
         // Center initialized to Naples, Italy
-			var myOptions = {
-				zoom: 10,
-				center: new google.maps.LatLng(40.84, 14.25),
+			var mapOptions = {
+				center: new google.maps.LatLng(49.2402, -123.1138),
+				zoom: 11,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
 
@@ -105,8 +133,8 @@
 
 			var directionsService = new google.maps.DirectionsService();
 			var directionsRequest = {
-				origin: from,
-				destination: to,
+				origin: Geolocation.getCurrentPosition(),
+				destination: infowindow.getPosition(),
 				travelMode: google.maps.DirectionsTravelMode.DRIVING,
 				unitSystem: google.maps.UnitSystem.METRIC
 			};
@@ -132,22 +160,6 @@
 			} else {
 				var content = 'Error: Your browser doesn\'t support geolocation.';
 			}
-		}
-
-		// This function gets direction from one to another
-		function calcRoute() {
-			var start = document.getElementById("start").value;
-			var end = document.getElementById("end").value;
-			var request = {
-				origin:start,
-				destination:end,
-				travelMode: google.maps.TravelMode.DRIVING
-			};
-			directionsService.route(request, function(result, status) {
-				if (status == google.maps.DirectionsStatus.OK) {
-					directionsDisplay.setDirections(result);
-				}
-			});
 		}
 
 		google.maps.event.addDomListener(window, 'load', initialize);
