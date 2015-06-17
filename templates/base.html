@@ -26,7 +26,7 @@
 		var directionsService;
 		var directionsDisplay;
 		var myPos;
-		var dirInfoWindow;
+		var myDir;
 		var map;
 		var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 
@@ -47,6 +47,7 @@
 
 			// Show all parks
 			getParks(map)
+
 			geocoder = new google.maps.Geocoder();
 		    directionsService = new google.maps.DirectionsService();
 		    directionsDisplay = new google.maps.DirectionsRenderer({
@@ -57,11 +58,12 @@
 			// Try HTML5 geolocation
 			if(navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(function(position) {
-					var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+					// var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 					myPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 					var myMark = new google.maps.Marker({
 						map: map,
-						position: pos,
+						// position: pos,
+						position: myPos,
 						icon: iconBase + 'man_maps.png',
 						title: 'My Current Location.',
 					});
@@ -78,10 +80,11 @@
 		// This function gets the list of all of Vancouver parks
 		function getParks(map) {
 			var infowindow = new google.maps.InfoWindow()
-			// dirInfoWindow = new google.maps.InfoWindow();
+			// dirinfoWindow = new google.maps.InfoWindow();
 
 			"{% for park in Parks %}"
 				var pLatLng = new google.maps.LatLng("{{ park.lat }}", "{{ park.lon }}");
+				myDir = new google.maps.LatLng("{{ park.lat }}", "{{ park.lon }}");
 				var marker = new google.maps.Marker({
 					position: pLatLng,
 					map: map,
@@ -91,7 +94,7 @@
 				'<div id="content">'+
 					'<h4 id="title">{{ park.pName }}</h4>'+
 					'<p><b>Address: </b> {{ park.streetNumber }} {{ park.streetName }} Vancouver</p>'+
-					'<button onclick="getDir()">Get Direction</button>'+
+					'<button onclick="getDir(myPos, myDir)">Get Direction</button>'+
 				'</div>';
 
 				google.maps.event.addListener(marker, 'click', (function(marker, content, infowindow) {
@@ -103,9 +106,9 @@
 			"{% endfor %}"
 		}
 
-		function getDir() {
-            var origin = myPos;
-            var destination = infowindow.getPosition();
+		function getDir(from, to) {
+            var origin = from;
+            var destination = to;
 
             var request = {
                 origin: origin,
