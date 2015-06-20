@@ -103,7 +103,10 @@
 				google.maps.event.addListener(marker, 'click', (function(marker, content, infowindow) {
 					return function() {
 						infowindow.setContent(content);
+						// infowindow.setPosition(pLatLng);
 						infowindow.open(map, marker);
+						map.setCenter(pLatLng);
+						map.setZoom(13);
 					};
 				})(marker, content, infowindow));
 			"{% endfor %}"

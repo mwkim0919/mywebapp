@@ -1,0 +1,44 @@
+body, html {
+	height: 100%;
+	width: 100%
+}
+
+#map-canvas {
+	/*width: 40%;*/
+    /*height: cal(100%-0);*/
+    width: 500px;
+    height: 700px;
+    /*position: absolute;*/
+    /*right: 0px;*/
+    /*top: 54px;*/
+    /*bottom: 0;*/
+    overflow: hidden;
+}
+
+#directionsPanel {
+          position: absolute;
+          top: 0px;
+          left: 530px;
+          right: 0px;
+          width: 220px;
+          height: 700px;
+          overflow-y: scroll;
+}
+
+.modal.modal-wide .modal-dialog {
+	width: 90%;
+}
+
+
+table.table-fixedheader>tbody {
+    display: block;
+}
+
+table.table-fixedheader>tbody {
+    overflow-y: auto;
+    height: 700px;
+}
+
+table.table-fixedheader>thead>tr>th, table.table-fixedheader>tbody>tr>td {
+    float: left;
+}

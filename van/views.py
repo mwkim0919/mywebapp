@@ -32,7 +32,6 @@ def parks(request):
 	images = {}
 
 	weathers = Weather.objects.order_by('date')
-	# print weathers
 
 	for weather in weathers:
 		weatherIDs.append(weather.wID)
@@ -153,7 +152,6 @@ def search(request):
 	images = {}
 
 	weathers = Weather.objects.order_by('date')
-	# print weathers
 
 	for weather in weathers:
 		weatherIDs.append(weather.wID)
@@ -213,7 +211,6 @@ def search(request):
 					fInfo = str(f.facilType) + " (" + str(f.facilNum) + ")"
 					tempFacilities.append(fInfo)
 
-				parkIDs.append(park.pID)
 				names[park.pID] = park.pName
 				streetNumbers[park.pID] = park.streetNumber
 				streetNames[park.pID] = park.streetName
@@ -269,55 +266,3 @@ def search(request):
 		})
 
 	return render(request, 'park.html', context)
-
-# def weathers(request):
-# 	# store weatherIDs
-# 	weatherIDs = []
-
-# 	# use weatherIDs as keys and store weather information in these dictionaries
-# 	dates = {}
-# 	names = {}
-# 	d_temps = {}
-# 	n_temps = {}
-# 	precips = {}
-# 	precipTypes = {}
-# 	windSpeeds = {}
-# 	windDirections = {}
-# 	humidities = {}
-# 	images = {}
-
-# 	weathers = Weather.objects.order_by('date')
-# 	# print weathers
-
-# 	for weather in weathers:
-# 		weatherIDs.append(weather.wID)
-# 		dates[weather.wID] = weather.date
-# 		names[weather.wID] = weather.name
-# 		d_temps[weather.wID] = weather.dayTemp
-# 		n_temps[weather.wID] = weather.nightTemp
-# 		precips[weather.wID] = weather.precipitation
-# 		precipTypes[weather.wID] = weather.preciType
-# 		windSpeeds[weather.wID] = weather.windSpeed
-# 		windDirections[weather.wID] = weather.windDirection
-# 		humidities[weather.wID] = weather.humidity
-# 		images[weather.wID] = "http://openweathermap.org/img/w/" + weather.image + ".png"
-# 		# http://openweathermap.org/img/w/10d.png
-
-
-# 	template = loader.get_template('weather.html')
-# 	context = RequestContext(request, 
-# 		{
-# 		'weatherIDs': weatherIDs,
-# 		'dates': dates,
-# 		'names': names,
-# 		'd_temps': d_temps,
-# 		'n_temps': n_temps,
-# 		'precips': precips,
-# 		'precipTypes': precipTypes,
-# 		'windSpeeds': windSpeeds,
-# 		'windDirections': windDirections,
-# 		'humidities': humidities,
-# 		'images': images,
-# 		})
-	
-# 	return render(request, 'weather.html', context)
